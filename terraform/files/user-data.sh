@@ -39,6 +39,7 @@ usermod -aG sudo runner
 
 # Download and install runner script
 cd /home/runner
+su runner
 mkdir -p actions-runner
 cd actions-runner
 curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.317.0/actions-runner-linux-x64-2.317.0.tar.gz
