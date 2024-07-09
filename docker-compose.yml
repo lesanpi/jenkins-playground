@@ -35,15 +35,12 @@ services:
       - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
     user: root
     ports:
-      - '3000'
+      - '8080'
     # expose:
     #   - "80"
-
-    environment:
-      - http_port=80
     labels:
       - 'traefik.enable=true'
-      - 'traefik.port=3000'
+      - 'traefik.port=8080'
       - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
       - 'traefik.http.routers.api.entrypoints=websecure'
       - 'traefik.http.routers.api.tls.certresolver=le'
