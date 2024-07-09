@@ -49,6 +49,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     image: api
+    container_name: app
     # env_file: ./apps/api/src/variables.env
     restart: unless-stopped
     ports:
