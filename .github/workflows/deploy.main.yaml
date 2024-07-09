@@ -22,7 +22,7 @@ jobs:
       - name: Build images
         working-directory: ./
         run: |
-          # chmod 600 letsencrypt/acme.json
+          chmod 600 letsencrypt/acme.json
           # DOCKER
           COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose up --build -d --scale api=1
           docker system prune -f
