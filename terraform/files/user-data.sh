@@ -48,7 +48,6 @@ curl -o actions-runner-linux-x64-2.317.0.tar.gz -L https://github.com/actions/ru
 tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
 
 # Configure runner
-# ./config.sh --url https://github.com/lesanpi/jenkins-playground --token AKGVSWKWOBD74BTL6IEQCCLGRSUWW --tags main --unattended
 su - runner -c "
 /home/runner/actions-runner/config.sh --url $GIHUB_URL --token $RUNNER_TOKEN --labels $RUNNER_LABELS --unattended
 "
