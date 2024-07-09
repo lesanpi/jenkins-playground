@@ -32,14 +32,17 @@ services:
     image: jenkins/jenkins
     container_name: jenkins
     volumes:
-      - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - vol-jenkins-content:/var/jenkins_home
     ports:
-      - '8080'
+      - '3000'
+    # expose:
+    #   - "80"
+
     environment:
-      - JENKINS_OPTS="--prefix=/jenkins"
+      - http_port=80
     labels:
       - 'traefik.enable=true'
-      - 'traefik.port=8080'
+      - 'traefik.port=3000'
       - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
       - 'traefik.http.routers.api.entrypoints=websecure'
       - 'traefik.http.routers.api.tls.certresolver=le'
