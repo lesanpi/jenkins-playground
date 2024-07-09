@@ -31,8 +31,11 @@ services:
   jenkins:
     image: jenkins/jenkins:latest
     container_name: jenkins
+    volumes:
+      - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 3000:3000
+      - 3000:8080
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
