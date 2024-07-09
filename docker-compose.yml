@@ -33,7 +33,6 @@ services:
     container_name: jenkins
     volumes:
       - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - '8080'
     environment:
