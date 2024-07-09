@@ -54,7 +54,7 @@ services:
     container_name: jenkins
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      - jenkins_home:/var/jenkins_home
     # restart: always
     restart: unless-stopped
     privileged: true
