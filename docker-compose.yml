@@ -27,28 +27,6 @@ services:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
     networks:
       - traefik-net
-  jenkins:
-    image: jenkins/jenkins:jdk17
-    container_name: jenkins
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
-    # restart: always
-    restart: unless-stopped
-    privileged: true
-    user: root
-    ports:
-      - '8080'
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.port=8080'
-      - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
-      - 'traefik.http.routers.api.entrypoints=websecure'
-      - 'traefik.http.routers.api.tls.certresolver=le'
-      - 'traefik.http.services.api.loadbalancer.server.port=8080'
-    environment:
-      - "TZ=America/Caracas"
-      - "JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.footerURL=https://demo.lesanpi.dev"
 
   api:
     build:
@@ -70,6 +48,33 @@ services:
       - 'traefik.http.routers.api.tls.certresolver=le'
     networks:
       - traefik-net
+
+  jenkins:
+    image: jenkins/jenkins:jdk17
+    container_name: jenkins
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+    # restart: always
+    restart: unless-stopped
+    privileged: true
+    user: root
+    expose:
+      - "8080"
+    # ports:
+    #   - '8080'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.port=8080'
+      - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
+      - 'traefik.http.routers.api.entrypoints=websecure'
+      - 'traefik.http.routers.api.tls.certresolver=le'
+      - 'traefik.http.services.api.loadbalancer.server.port=8080'
+    networks:
+      - traefik-net
+    environment:
+      - "TZ=America/Caracas"
+      - "JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.footerURL=https://demo.lesanpi.dev"
 
 networks:
   traefik-net:
