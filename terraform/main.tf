@@ -5,6 +5,8 @@ terraform {
       version = "~> 2.0"
     }
   }
+  backend "pg" {
+  }
 }
 
 provider "digitalocean" {
@@ -58,6 +60,14 @@ resource "digitalocean_record" "main" {
 
 }
 
+resource "digitalocean_record" "app" {
+  domain = "lesanpi.dev"
+  name   = "app"
+  type   = "A"
+  value  = digitalocean_droplet.droplet.ipv4_address
+  ttl    = 1800
+
+}
 resource "digitalocean_record" "jenkins" {
   domain = "lesanpi.dev"
   name   = "jenkins"
