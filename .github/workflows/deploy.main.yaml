@@ -24,8 +24,6 @@ jobs:
         run: |
           chmod 600 letsencrypt/acme.json
           # DOCKER
-          docker compose down
-          docker system prune -f
           COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose up --build -d --scale api=1 --scale jenkins=1
           docker ps -a
           docker system prune -f
