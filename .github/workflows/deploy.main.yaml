@@ -1,29 +1,29 @@
 name: Deploy to main
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  build-containers:
-    name: 'Build Containers'
-    environment: main
-    runs-on: ['self-hosted', 'main']
+    build-containers:
+        name: 'Build Containers'
+        environment: main
+        runs-on: ['self-hosted', 'main']
 
-    defaults:
-      run:
-        working-directory: .
+        defaults:
+            run:
+                working-directory: .
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-      - name: Build images
-        working-directory: ./
-        run: |
-          chmod 600 letsencrypt/acme.json
-          # DOCKER
-          COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose up --build -d --scale api=1
-          docker ps -a
-          docker system prune -f
+            - name: Build images
+              working-directory: ./
+              run: |
+                  chmod 600 letsencrypt/acme.json
+                  # DOCKER
+                  COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose up --build -d --scale api=1
+                  docker system prune -f
+                  docker ps -a
