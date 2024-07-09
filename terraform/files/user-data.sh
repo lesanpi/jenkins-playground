@@ -1,8 +1,10 @@
 #!/bin/bash
+GIHUB_URL=https://github.com/lesanpi/jenkins-playground
+RUNNER_TOKEN=AKGVSWLB7ZI6AJNGE66TR3TGRTATE
+RUNNER_LABELS=self-hosted,main
 
 # Update packages
 apt-get update -y
-
 
 # Docker oficial
 # Add Docker's official GPG key:
@@ -45,7 +47,7 @@ tar xzf ./actions-runner-linux-x64-2.317.0.tar.gz
 # Configure runner
 # ./config.sh --url https://github.com/lesanpi/jenkins-playground --token AKGVSWKWOBD74BTL6IEQCCLGRSUWW --tags main --unattended
 su - runner -c "
-/home/runner/actions-runner/config.sh --url https://github.com/lesanpi/jenkins-playground --token AKGVSWKWOBD74BTL6IEQCCLGRSUWW --labels main --unattended
+/home/runner/actions-runner/config.sh --url $GIHUB_URL --token $RUNNER_TOKEN --labels $RUNNER_LABELS --unattended
 "
 # Setup systemd scripts
 cd /home/runner/actions-runner/
