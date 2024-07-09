@@ -32,7 +32,8 @@ chmod a+x /etc/cron.daily/docker-prune
 
 # Create dedicated user
 useradd -m -d /home/runner -s /bin/bash runner
-usermod -G docker runner
+# usermod -G docker runner
+usermod -aG sudo runner
 
 # Download and install runner script
 cd /home/runner
