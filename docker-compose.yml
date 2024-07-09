@@ -33,6 +33,7 @@ services:
     container_name: jenkins
     volumes:
       - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+    user: root
     ports:
       - '3000'
     # expose:
