@@ -35,17 +35,17 @@ services:
       - 8080:8080
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.app.rule=Host(`jenkins.lesanpi.dev`)'
-      - 'traefik.http.routers.app.entrypoints=websecure'
-      - 'traefik.http.routers.app.tls.certresolver=le'
+      - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
+      - 'traefik.http.routers.api.entrypoints=websecure'
+      - 'traefik.http.routers.api.tls.certresolver=le'
     networks:
       - traefik-net
 
-  app:
+  api:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: app
+    image: api
     # env_file: ./apps/api/src/variables.env
     restart: unless-stopped
     ports:
@@ -55,9 +55,9 @@ services:
     mem_swappiness: 20
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.app.rule=Host(`app.lesanpi.dev`)'
-      - 'traefik.http.routers.app.entrypoints=websecure'
-      - 'traefik.http.routers.app.tls.certresolver=le'
+      - 'traefik.http.routers.api.rule=Host(`app.lesanpi.dev`)'
+      - 'traefik.http.routers.api.entrypoints=websecure'
+      - 'traefik.http.routers.api.tls.certresolver=le'
     networks:
       - traefik-net
 
