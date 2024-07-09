@@ -68,6 +68,15 @@ resource "digitalocean_record" "app" {
   ttl    = 1800
 
 }
+
+resource "digitalocean_record" "demo" {
+  domain = "lesanpi.dev"
+  name   = "demo"
+  type   = "A"
+  value  = digitalocean_droplet.droplet.ipv4_address
+  ttl    = 1800
+
+}
 resource "digitalocean_record" "jenkins" {
   domain = "lesanpi.dev"
   name   = "jenkins"

@@ -33,6 +33,8 @@ services:
     container_name: jenkins
     volumes:
       - /home/runner/jenkins_compose/jenkins_configuration:/var/jenkins_home
+    restart: always
+    privileged: true
     user: root
     ports:
       - '8080'
