@@ -22,21 +22,7 @@ jobs:
       - name: Build images
         working-directory: ./
         run: |
-          chmod 600 letsencrypt/acme.json
+          # chmod 600 letsencrypt/acme.json
           # DOCKER
           COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose up --build -d --scale api=3 --scale admin=3 --scale api-exchange=3 --scale ms-communication=3 --scale client=3
           docker system prune -f
-
-      - name: Build failed
-        if: ${{ failure() }}
-        run: |
-          curl --location --request POST 'https://avila-mail.vercel.app/api/lark' \
-          --header 'Content-Type: application/json' \
-          --data '{
-              "action": "failure",
-              "project_name": "Nuevo Proyecto",
-              "env": "development",
-              "links": ["$CLIENT_URL", "$DASHBOARD_URL"],
-              "gh_action": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID",
-              "emails": "$EMAILS"
-          }'
