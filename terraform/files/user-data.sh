@@ -1,6 +1,6 @@
 #!/bin/bash
 GIHUB_URL=https://github.com/lesanpi/jenkins-playground
-RUNNER_TOKEN=AKGVSWPUEYPD676HAX5FP43GRTF7M
+RUNNER_TOKEN=AKGVSWJHYUQV6KLHGX4UTMTGRVKAK
 RUNNER_LABELS=self-hosted,main
 
 # Update packages
