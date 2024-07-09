@@ -9,6 +9,8 @@ services:
       - '--log.level=DEBUG'
       - '--api=true'
       - '--api.insecure=true'
+      - '--jenkins=true'
+      - '--jenkins.insecure=true'
       - '--providers.docker=true'
       - '--entrypoints.web.address=:80'
       - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
@@ -28,26 +30,26 @@ services:
     networks:
       - traefik-net
 
-  api:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    image: api
-    container_name: app
-    # env_file: ./apps/api/src/variables.env
-    restart: unless-stopped
-    ports:
-      - '3000'
-    mem_limit: 2g
-    memswap_limit: -1
-    mem_swappiness: 20
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.api.rule=Host(`demo.lesanpi.dev`)'
-      - 'traefik.http.routers.api.entrypoints=websecure'
-      - 'traefik.http.routers.api.tls.certresolver=le'
-    networks:
-      - traefik-net
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   image: api
+  #   container_name: app
+  #   # env_file: ./apps/api/src/variables.env
+  #   restart: unless-stopped
+  #   ports:
+  #     - '3000'
+  #   mem_limit: 2g
+  #   memswap_limit: -1
+  #   mem_swappiness: 20
+  #   labels:
+  #     - 'traefik.enable=true'
+  #     - 'traefik.http.routers.api.rule=Host(`demo.lesanpi.dev`)'
+  #     - 'traefik.http.routers.api.entrypoints=websecure'
+  #     - 'traefik.http.routers.api.tls.certresolver=le'
+  #   networks:
+  #     - traefik-net
 
   jenkins:
     image: jenkins/jenkins:jdk17
@@ -64,12 +66,14 @@ services:
     # ports:
     #   - '8080'
     labels:
-      - 'traefik.enable=true'
-      - 'traefik.port=8080'
-      - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
-      - 'traefik.http.routers.api.entrypoints=websecure'
-      - 'traefik.http.routers.api.tls.certresolver=le'
-      - 'traefik.http.services.api.loadbalancer.server.port=8080'
+      - "traefik.http.routers.jenkins.rule=Host(`jenkins.lesanpi.dev`)"
+      - "traefik.http.services.jenkins.loadbalancer.server.port=8080"
+      # - 'traefik.enable=true'
+      # - 'traefik.port=8080'
+      # - 'traefik.http.routers.api.rule=Host(`jenkins.lesanpi.dev`)'
+      # - 'traefik.http.routers.api.entrypoints=websecure'
+      # - 'traefik.http.routers.api.tls.certresolver=le'
+      # - 'traefik.http.services.api.loadbalancer.server.port=8080'
     networks:
       - traefik-net
     environment:
