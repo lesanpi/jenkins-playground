@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  traefik:
+    image: 'traefik:v2.9'
+    container_name: 'traefik'
+    command:
+      - '--log.level=DEBUG'
+      - '--api=true'
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
+      - '--entrypoints.websecure.address=:443'
+      - '--providers.docker.exposedbydefault=true'
+      - '--certificatesresolvers.le.acme.tlschallenge=true'
+      - '--certificatesresolvers.le.acme.email=lespinerua@gmail.com'
+      - '--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - './letsencrypt:/letsencrypt'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    networks:
+      - traefik-net
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: app
+    # env_file: ./apps/api/src/variables.env
+    restart: unless-stopped
+    ports:
+      - '3000'
+    mem_limit: 2g
+    memswap_limit: -1
+    mem_swappiness: 20
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.api.rule=Host(`app.lesanpi.dev`)'
+      - 'traefik.http.routers.api.entrypoints=websecure'
+      - 'traefik.http.routers.api.tls.certresolver=le'
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    driver: bridge
