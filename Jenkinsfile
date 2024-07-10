@@ -8,6 +8,12 @@ pipeline {
             }
         }
 
+         stage('List folder') {
+            steps {
+                sh 'ls -l'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -15,11 +21,6 @@ pipeline {
         }
 
 
-        stage('List folder') {
-            steps {
-                sh 'ls -l'
-            }
-        }
         stage('Build') {
             steps {
                 sh 'npm run build'
