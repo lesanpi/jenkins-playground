@@ -22,19 +22,5 @@ pipeline {
             }
         }
 
-
-       stage('Build') {
-            steps {
-                nodejs(nodeJSInstallationName: 'Node-20') {
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts 'build/*'
-            }
-        }
     }
 }
