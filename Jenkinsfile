@@ -1,35 +1,26 @@
 node {
-    env.NODEJS_HOME = "${tool 'Node-20'}"
-    // on linux / mac
-    env.PATH="${env.NODEJS_HOME}/bin:${env.PATH}"
-    // on windows
-    env.PATH="${env.NODEJS_HOME};${env.PATH}"
-    sh 'npm --version'
-}
-
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
+   def gitcommit
+   stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
-         stage('List folder') {
+   stage('List folder') {
             steps {
                 sh 'ls -l'
             }
         }
-
-        stage('Install Dependencies') {
-            steps {
-                nodejs(nodeJSInstallationName: 'Node-20') {
-                    sh 'npm install'
-                }
-            }
-        }
-
-    }
+        
+   stage('test') {
+     nodejs(nodeJSInstallationName: 'nodejs') {
+       sh 'npm install --only=dev'
+       sh 'npm test'
+     }
+   }
+   stage('Docker Build & Push') {
+     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+      def nuestraapp = docker.build("macloujulian/nodejsapp:${gitcommit}", ".")
+      nuestraapp.push()
+     }
+   }
 }
