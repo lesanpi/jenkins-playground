@@ -1,15 +1,16 @@
 node {
-   def gitcommit
+
    stage('Checkout') {
-            steps {
-                checkout scm
-            }
+        steps {
+            checkout scm
         }
+    }
+
    stage('List folder') {
-            steps {
-                sh 'ls -l'
-            }
+        steps {
+            sh 'ls -l'
         }
+    }
         
    stage('test') {
      nodejs(nodeJSInstallationName: 'nodejs') {
