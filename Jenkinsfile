@@ -17,15 +17,17 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 nodejs(nodeJSInstallationName: 'Node-20') {
-                    sh 'npm config ls'
+                    sh 'npm install'
                 }
             }
         }
 
 
-        stage('Build') {
+       stage('Build') {
             steps {
-                sh 'npm run build'
+                nodejs(nodeJSInstallationName: 'Node-20') {
+                    sh 'npm run build'
+                }
             }
         }
 
