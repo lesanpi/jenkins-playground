@@ -16,7 +16,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                nodejs(nodeJSInstallationName: 'Node 20', configId: '<config-file-provider-id>') {
+                nodejs(nodeJSInstallationName: 'Node-20') {
                     sh 'npm config ls'
                 }
             }
